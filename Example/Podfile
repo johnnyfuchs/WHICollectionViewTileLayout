@@ -1,0 +1,12 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
+target 'WHICollectionViewTileLayout', :exclusive => true do
+  pod "WHICollectionViewTileLayout", :path => "../"
+end
+
+target 'Tests', :exclusive => true do
+  pod "WHICollectionViewTileLayout", :path => "../"
+
+  pod 'Specta', '~> 0.2.1'
+  pod 'Expecta'
+end

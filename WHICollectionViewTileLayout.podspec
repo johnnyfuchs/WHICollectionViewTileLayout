@@ -12,12 +12,9 @@ Pod::Spec.new do |s|
   s.version          = "0.1.0"
   s.summary          = "A masonry style UICollectionViewLayout."
   s.description      = <<-DESC
-                       An optional longer description of WHICollectionViewTileLayout
-
-
+                       WHICollectionViewTileLayout is a class to replace UICollectionViewFlowLayout. Instead of floating items and centering different sizes on a row, WHICollectionViewTileLayout snaps UICollectionView cells to a grid. For every index path, provide a WHISpan that designates the number of columns and rows. This enables a rich mix of cell sizes to seamlessly fit into together like pieces of a puzzle. Calculating the tile positions of WHICollectionViewTileLayout is done with C arrays and bit shifting for optimal performance. See the Example app for more details. 
                        DESC
   s.homepage         = "https://github.com/johnnyfuchs/WHICollectionViewTileLayout"
-  # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license          = 'MIT'
   s.author           = { "johnnyfuchs" => "johnnyfuchs@gmail.com" }
   s.source           = { :git => "https://github.com/johnnyfuchs/WHICollectionViewTileLayout.git", :tag => s.version.to_s }
@@ -25,9 +22,5 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '7.0'
   s.requires_arc = true
 
-  s.source_files = '*{h,m}'
-  s.resource_bundles = {
-    'WHICollectionViewTileLayout' => ['Pod/Assets/*.png']
-  }
-  s.requires_arc = true
+  s.source_files = 'Pod/*{h,m}'
 end

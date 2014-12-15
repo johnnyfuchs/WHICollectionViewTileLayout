@@ -38,6 +38,7 @@ static const int kMaxRows = 20000;
     memset(_buckets, 0, sizeof(_buckets));  // zero out the buckets
     _bottomRow = 0;
     _topRow = 0;
+    _itemSize = CGSizeZero;
 
     for (NSUInteger section = 0; section < [self.collectionView numberOfSections]; section++){
         NSInteger numberOfItemsInSection = [self.collectionView numberOfItemsInSection:section];
@@ -129,9 +130,9 @@ static const int kMaxRows = 20000;
     NSAssert(coordinate.row + span.row < kMaxRows, @"Max row exceeded");
 
     uint64_t colBit;
-    for(uint col = coordinate.col; col < coordinate.col + span.col; col ++){
-        for(uint row = coordinate.row; row < coordinate.row + span.row; row ++){
-            colBit = (uint64_t) ((col > 32) ? pow(2, col) : (1 << col));
+    for(uint64_t col = coordinate.col; col < coordinate.col + span.col; col ++){
+        for(uint64_t row = coordinate.row; row < coordinate.row + span.row; row ++){
+            colBit = (uint64_t)1 << col;
             _buckets[row] += colBit;
         }
     }
@@ -144,7 +145,7 @@ static const int kMaxRows = 20000;
 - (NSUInteger)bottomRow
 {
     NSUInteger cols = self.columnCount;
-    uint64_t fullRowValue = (uint64_t) ((cols > 32) ? pow(2, cols) : (1 << cols)) - 1;
+    uint64_t fullRowValue = ((uint64_t)1 << cols) - 1;
     while(fullRowValue == _buckets[_bottomRow]){
         _bottomRow++;
     }
@@ -153,8 +154,8 @@ static const int kMaxRows = 20000;
 
 - (BOOL) tileFilledAtCoordinates:(WHICoordinate) coordinate
 {
-    uint col = coordinate.col;
-    uint64_t colBit = (uint64_t) ((col > 32) ? pow(2, col) : (1 << col));
+    uint64_t col = coordinate.col;
+    uint64_t colBit = (uint64_t)1 << col;
     return (BOOL) (_buckets[coordinate.row] & colBit);
 }
 
@@ -175,9 +176,9 @@ static const int kMaxRows = 20000;
             endRow = minRow + span.row;
             spanFits = YES;
 
-            for(uint col=searchCol; col <  endCol; col++){
-                for(uint row= minRow; row < endRow; row++){
-                    colBit = (uint64_t) ((col > 32) ? pow(2, col) : (1 << col));
+            for(uint64_t col=searchCol; col <  endCol; col++){
+                for(uint64_t row= minRow; row < endRow; row++){
+                    colBit = (uint64_t)1 << col;
                     tileOccupied = (BOOL) (_buckets[row] & colBit);
                     if(tileOccupied){
                         spanFits = NO;

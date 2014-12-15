@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class WHICollectionViewTileLayout;
+
 @interface WHIViewController : UIViewController
 
 @end
